@@ -1,0 +1,50 @@
+#######################################
+# Syntax Coloring Map DBoard
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+# Core classes
+DBoard	            KEYWORD1	DBoard
+Component	        KEYWORD1	Component
+
+# Components classes
+Led                 KEYWORD1    Led
+PulseLed            KEYWORD1    PulseLed
+BlinkLed            KEYWORD1    BlinkLed
+HeartbeatLed        KEYWORD1    HeartbeatLed
+
+Input               KEYWORD1    Input
+TouchSensor         KEYWORD1    TouchSensor  
+ButtonSensor        KEYWORD1    ButtonSensor
+LightSensor         KEYWORD1    LightSensor
+SoundSensor         KEYWORD1    SoundSensor
+TemperatureSensor   KEYWORD1    TemperatureSensor
+RotaryAngleSensor   KEYWORD1    RotaryAngleSensor
+
+Buzzer              KEYWORD1    Buzzer
+Lcd                 KEYWORD1    Lcd
+MDotLoRa            KEYWORD1    MDotLoRa
+Timer               KEYWORD1    Timer
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+Uno	                KEYWORD2
+run                 KEYWORD2
+wait                KEYWORD2
+leave               KEYWORD2
+waitings            KEYWORD2
+print               KEYWORD2
+health              KEYWORD2
+setup               KEYWORD2
+loop                KEYWORD2
+plug                KEYWORD2
+handler             KEYWORD2
+event               KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
