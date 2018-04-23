@@ -16,42 +16,30 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-#include <BlinkLed.h>
+#include <Relay.h>
 
-BlinkLed::BlinkLed(int _pin) : 
-    Led(_pin) {
-    // nothing more
+Relay::Relay(int _pin) :
+    m_relayPin(_pin) {
+    // nothing left to write here
 } // constructor
 
-void BlinkLed::run(serviceType _serv) {
+Relay::~Relay() {
+    digitalWrite(m_relayPin, LOW);
+} // destructor
 
-/**
+void Relay::setup() {
+    pinMode(m_relayPin, OUTPUT);
+    digitalWrite(m_relayPin, LOW);
+} // setup
 
- Blinking model
-  __        
- |  |      
-_|  |______
-  1    2        
-
-  1 : onTime
-  2 : offTime
-
-
-**/
-
-    if(m_ledState == HIGH) {
-        setOff();
-        wait(m_offTime);
-    }
-    else if (m_ledState == LOW) {
-        setOn();
-        wait(m_onTime);
-    }
+void Relay::run(byte _serv) {
+    ; // nothing here
 } // run
 
-void BlinkLed::blink(long _on, long _off) {
-    m_onTime = _on;
-    m_offTime = _off;
-    leave();
-    wait(0);
-} // blink
+void Relay::open() {
+    digitalWrite(m_relayPin, LOW);
+} // open
+
+void Relay::close() {
+    digitalWrite(m_relayPin, HIGH);
+} // close

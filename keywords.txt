@@ -7,8 +7,8 @@
 #######################################
 
 # Core classes
-DBoard	            KEYWORD1	DBoard
-Component	        KEYWORD1	Component
+DBoard              KEYWORD1    DBoard
+Components          KEYWORD1    Component
 
 # Components classes
 Led                 KEYWORD1    Led
@@ -32,7 +32,7 @@ Timer               KEYWORD1    Timer
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-Uno	                KEYWORD2
+Uno                 KEYWORD2
 run                 KEYWORD2
 wait                KEYWORD2
 leave               KEYWORD2

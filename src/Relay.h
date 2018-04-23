@@ -16,42 +16,23 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-#include <BlinkLed.h>
+#ifndef _RELAY_H_
+#define _RELAY_H_
 
-BlinkLed::BlinkLed(int _pin) : 
-    Led(_pin) {
-    // nothing more
-} // constructor
+#include <Arduino.h>
+#include <Component.h>
 
-void BlinkLed::run(serviceType _serv) {
+class Relay : public Component {
+    public:
+        Relay(int pin);
+        ~Relay();
+        void setup();
+        void run(byte);
+        void open();
+        void close();
+        
+    protected:
+        int m_relayPin;   // the number of the Relay pin
+};
 
-/**
-
- Blinking model
-  __        
- |  |      
-_|  |______
-  1    2        
-
-  1 : onTime
-  2 : offTime
-
-
-**/
-
-    if(m_ledState == HIGH) {
-        setOff();
-        wait(m_offTime);
-    }
-    else if (m_ledState == LOW) {
-        setOn();
-        wait(m_onTime);
-    }
-} // run
-
-void BlinkLed::blink(long _on, long _off) {
-    m_onTime = _on;
-    m_offTime = _off;
-    leave();
-    wait(0);
-} // blink
+#endif // _RELAY_H_
