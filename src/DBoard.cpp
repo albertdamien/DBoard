@@ -40,7 +40,7 @@ DBoard::DBoard() :
     m_heartbeat = new HeartbeatLed(LED_BUILTIN, 30, 100, 2500);
     m_heartbeat->plug();  
     Serial.println(F("[DBoard] WatchDog Timer enabled"));
-    wdt_enable(WDTO_120MS); // 120 ms timeout before reset
+    wdt_enable(WDTO_1S); // 1 sec timeout before reset
 } // constructor
 
 DBoard::~DBoard() {
