@@ -20,10 +20,10 @@
 #include <avr/wdt.h>
 
 void yield(void) {
-   DBoard::Uno().run();
+    DBoard::Uno().run();
 } // yield
 
-DBoard::DBoard() : 
+DBoard::DBoard() :
     m_currentTask(NULL),
     m_tasks(NULL),
     m_monitorMillis(millis()),
@@ -31,14 +31,15 @@ DBoard::DBoard() :
 
     // wait for serial port to connect. Needed for native USB
     Serial.begin(115200);
-    while (!Serial); 
+    while (!Serial);
 
     // welcome string
     Serial.println(F("[DBoard] Boot up d|board v1.0.0"));
 
-    // attach the two incorporated components
+    // attach the incorporated component
     m_heartbeat = new HeartbeatLed(LED_BUILTIN, 30, 100, 2500);
-    m_heartbeat->plug();  
+    m_heartbeat->plug();
+    // enable the watchdog timer
     Serial.println(F("[DBoard] WatchDog Timer enabled"));
     wdt_enable(WDTO_1S); // 1 sec timeout before reset
 } // constructor
@@ -55,27 +56,27 @@ DBoard::~DBoard() {
 } // destructor
 
 DBoard& DBoard::Uno() {
-    static DBoard instance;
+    static DBoard instance; // singleton instance
     return instance;
 } // Uno
 
 void DBoard::run() {
     // Reset Watch dog Timer otherwise a watchdog-initiated device reset will occur
-    wdt_reset();    
+    wdt_reset();
 
     // Launch scheduled elapsed Task
-    if (m_tasks && ((m_tasks->m_term <= millis()) \                                             
+    if (m_tasks && ((m_tasks->m_term <= millis()) \
                 || ((m_tasks->m_term >= m_halfwayMillis) && (millis() < m_halfwayMillis)))) {   // handle millis() rollover
         if (m_currentTask) { // reentrance of run() caused by delay() usage
             if (m_tasks != m_currentTask && ((millis() - m_tasks->m_term) > 5)) {
                 Serial.print(F("[DBoard] Overrunning task 0x"));
                 Serial.println((unsigned int)m_currentTask, HEX);
-            } else {                                                      
+            } else {
                 // in the current Task, nothing to do now
             }
         } else {
             if ((millis() - m_tasks->m_term) > 20) {
-                Serial.print(F("[DBoard] Task 0x")); 
+                Serial.print(F("[DBoard] Task 0x"));
                 Serial.print((unsigned int)m_tasks, HEX);
                 Serial.print(F(" running too late by "));
                 Serial.print(millis() - m_tasks->m_term);
@@ -89,11 +90,11 @@ void DBoard::run() {
             delete(m_currentTask);              // and delete it
             m_currentTask = NULL;               // before clearing the address
         }
-    } 
+    }
     //  Monitor health each 10s
     if (millis() - m_monitorMillis > m_monitorDelay) {
-        m_monitorMillis = millis(); 
-        health();          
+        m_monitorMillis = millis();
+        health();
         //print();
     }
 } // run
@@ -111,12 +112,12 @@ void DBoard::wait(Component* _comp, byte _serv, unsigned long _delay) {
     if (NULL == m_tasks) {
         m_tasks = _tmp;  // first Task
     } else { // add the Task respectfully to earliest deadline first scheduling
-        while ((NULL != _current->m_next) && isOlder(_tmp, _current->m_next)) { 
+        while ((NULL != _current->m_next) && isOlder(_tmp, _current->m_next)) {
             _current = _current->m_next;
         }
         if (isOlder(_tmp, _current)) {
             _tmp->m_next = _current->m_next;
-            _current->m_next = _tmp;    
+            _current->m_next = _tmp;
         } else {
             _tmp->m_next = m_tasks;
             m_tasks = _tmp;
@@ -133,7 +134,7 @@ void DBoard::leave(Component* _comp, byte _serv) {
     Task* _target(NULL);
 
     if (_current) {
-        if ((_current->m_comp == _comp) && (_current->m_serv == _serv)) { 
+        if ((_current->m_comp == _comp) && (_current->m_serv == _serv)) {
                 m_tasks = _current->m_next;
                 delete(_current);           // delete first Task
                 return true;                // the single Task is matching
@@ -141,7 +142,7 @@ void DBoard::leave(Component* _comp, byte _serv) {
             if (_current->m_next) {
                 _target = _current->m_next;
 
-                while ((_target->m_comp != _comp) || (_target->m_serv != _serv)) { 
+                while ((_target->m_comp != _comp) || (_target->m_serv != _serv)) {
                     _current = _target;
                     _target = _target->m_next;
                     if (NULL == _target) return false; // _comp not found in the Tasks list

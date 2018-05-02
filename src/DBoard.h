@@ -39,7 +39,7 @@ class DBoard {
                             DBoard();                                  // default constructor
                             ~DBoard();                                 // default destructor
         static DBoard&      Uno();                                     // singleton member method
-        void                run();                                     // main scheduling loop 
+        void                run();                                     // main scheduling loop
         void                wait(Component*, serviceType, millisType); // start a new Task and append it to queue (w/ service)
         void                wait(Component*, millisType);              // start a new Task and append it to queue (w/o service)
         void                leave(Component*, serviceType);            // pull out the Task from the queue (w/ service)
@@ -47,16 +47,16 @@ class DBoard {
         int                 waitings();                                // return the number of Tasks
         void                print();                                   // print the entire List of Task
         void                health();                                  // print health informations (RAM/Tasks)
-                  
-    private:                  
+
+    private:
         int                 freeMemory();                              // retrieve the free SRAM
-        bool                isOlder(Task*, Task*);                     // is the first Task older than the second one   
+        bool                isOlder(Task*, Task*);                     // is the first Task older than the second one
         Task*               m_currentTask;                             // the current Task in run() method
         Task*               m_tasks;                                   // scheduled Tasks of Components
         HeartbeatLed*       m_heartbeat;                               // heartbeat led indicator
         millisType          m_monitorMillis;                           // date of the last monitor report
         millisType          m_monitorDelay;                            // delay between each report
-        const millisType    m_halfwayMillis = 2147483647;              // this is halfway to the max millis value 
+        const millisType    m_halfwayMillis = 2147483647;              // this is halfway to the max millis value
 };
 
 #endif // _DBOARD_H_
