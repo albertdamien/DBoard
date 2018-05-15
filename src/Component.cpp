@@ -34,23 +34,23 @@ void Component::plug() {
 } // plug
 
 void Component::loop() {
-    DBoard::Uno().run();
+    board.run();
 } // loop
 
 void Component::wait(unsigned long _delay) {
-    DBoard::Uno().wait(this, _delay);
+    board.wait(this, _delay);
 } // wait
 
 void Component::wait(unsigned long _delay, byte _serv) {
-    DBoard::Uno().wait(this, _serv, _delay);
+    board.wait(this, _serv, _delay);
 } // wait
 
 void Component::leave() {
-    DBoard::Uno().leave(this);
+    board.leave(this);
 } // leave
 
 void Component::leave(byte _serv) {
-    DBoard::Uno().leave(this, _serv);
+    board.leave(this, _serv);
 } // leave
 
 void Component::handler(onEventHandler _handler) {

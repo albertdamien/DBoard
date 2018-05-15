@@ -19,8 +19,10 @@
 #include <DBoard.h>
 #include <avr/wdt.h>
 
+DBoard board; // d|board instance
+
 void yield(void) {
-    DBoard::Uno().run();
+    board.run();
 } // yield
 
 DBoard::DBoard() :
@@ -54,11 +56,6 @@ DBoard::~DBoard() {
     }
     m_tasks = NULL;
 } // destructor
-
-DBoard& DBoard::Uno() {
-    static DBoard instance; // singleton instance
-    return instance;
-} // Uno
 
 void DBoard::run() {
     // Reset Watch dog Timer otherwise a watchdog-initiated device reset will occur

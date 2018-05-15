@@ -38,7 +38,6 @@ class DBoard {
     public:
                             DBoard();                                  // default constructor
                             ~DBoard();                                 // default destructor
-        static DBoard&      Uno();                                     // singleton member method
         void                run();                                     // main scheduling loop
         void                wait(Component*, serviceType, millisType); // start a new Task and append it to queue (w/ service)
         void                wait(Component*, millisType);              // start a new Task and append it to queue (w/o service)
@@ -58,5 +57,7 @@ class DBoard {
         millisType          m_monitorDelay;                            // delay between each report
         const millisType    m_halfwayMillis = 2147483647;              // this is halfway to the max millis value
 };
+
+extern DBoard board;
 
 #endif // _DBOARD_H_
