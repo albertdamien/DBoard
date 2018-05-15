@@ -19,10 +19,8 @@
 #include <DBoard.h>
 #include <avr/wdt.h>
 
-DBoard board; // d|board instance
-
 void yield(void) {
-    board.run();
+    DBoard::Uno().run();
 } // yield
 
 DBoard::DBoard() :
@@ -39,7 +37,7 @@ DBoard::DBoard() :
     Serial.println(F("[DBoard] Boot up d|board v1.0.0"));
 
     // attach the incorporated component
-    m_heartbeat = new HeartbeatLed(LED_BUILTIN, 30, 100, 2500);
+    m_heartbeat = new HeartbeatLed(LED_BUILTIN, 30, 100, 1000);
     m_heartbeat->plug();
     // enable the watchdog timer
     Serial.println(F("[DBoard] WatchDog Timer enabled"));
@@ -56,6 +54,11 @@ DBoard::~DBoard() {
     }
     m_tasks = NULL;
 } // destructor
+
+DBoard& DBoard::Uno() {
+    static DBoard instance; // singleton instance
+    return instance;
+} // Uno
 
 void DBoard::run() {
     // Reset Watch dog Timer otherwise a watchdog-initiated device reset will occur

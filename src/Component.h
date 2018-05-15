@@ -57,10 +57,8 @@ class Component {
                         Component();                        // default constructor
         virtual void    setup() = 0;                        // launch during the call of plug() method
         virtual void    run(serviceType) = 0;               // launch the service by the scheduler of DBoard
-        static void     loop();                             // to execute into the main Arudino loop() function     
-        void            plug();                             // setup the Component
-        void            plug(onEventHandler);               // attach an handler and setup the Component
-        void            handler(onEventHandler);            // to install an event handler for the Component
+        static void     loop();                             // to execute into the main Arduino loop() function     
+        void            plug(onEventHandler = NULL);        // attach an handler and setup the Component
         void            event(eventType);                   // helper for throwing an event from the Component 
     
     protected:  

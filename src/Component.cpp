@@ -25,37 +25,29 @@ Component::Component() :
 } // constructor
 
 void Component::plug(onEventHandler _handler) {
-    handler(_handler);
-    setup();
-} // plug
-
-void Component::plug() {
+    if (_handler) m_handler = _handler;
     setup();
 } // plug
 
 void Component::loop() {
-    board.run();
+    DBoard::Uno().run();
 } // loop
 
 void Component::wait(unsigned long _delay) {
-    board.wait(this, _delay);
+    DBoard::Uno().wait(this, _delay);
 } // wait
 
 void Component::wait(unsigned long _delay, byte _serv) {
-    board.wait(this, _serv, _delay);
+    DBoard::Uno().wait(this, _serv, _delay);
 } // wait
 
 void Component::leave() {
-    board.leave(this);
+    DBoard::Uno().leave(this);
 } // leave
 
 void Component::leave(byte _serv) {
-    board.leave(this, _serv);
+    DBoard::Uno().leave(this, _serv);
 } // leave
-
-void Component::handler(onEventHandler _handler) {
-    if (_handler) m_handler = _handler;
-} // handler
 
 void Component::event(eventType _event) {
   if (m_handler) m_handler(_event);
