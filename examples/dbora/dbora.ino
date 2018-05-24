@@ -5,7 +5,7 @@
 
 */
 
-// DBoard Components
+// d|board Components
 #include <LightSensor.h>
 #include <TemperatureSensor.h>
 #include <PIRMotionSensor.h>
@@ -18,7 +18,7 @@
 #include <Lcd.h>
 #include <Timer.h>
 
-// Specifics Definitions
+// Custom Character Definitions
 #include <LoRa.h>
 #include <Sensor.h>
 
@@ -56,23 +56,23 @@ MDotLoRa            mDot;           // pin D8
 //
 Lcd            lcd;                 // pin SDA/SCL
 
+//      
+//________________END OF PINOUT____________________
+
 // Software-only component
 //
 Timer               timer;  
 Timer               lcd_backlight_timer;
-
-//      
-//________________END OF PINOUT____________________
 
 // LCD HD44780 Custom Character reservations //
 //
 #define CHAR_LORA       0            // CGRAM 0
 #define CHAR_TEMP_UP    1            // CGRAM 1
 #define CHAR_TEMP_DOWN  2            // CGRAM 2
-#define CHAR_CO2_1      3            // CGRAM 3
-#define CHAR_CO2_2      4            // CGRAM 4
-#define CHAR_HUMIDITY   5            // CGRAM 5
-#define CHAR_AIR        6            // CGRAM 6
+// free to use                       // CGRAM 3
+// free to use                       // CGRAM 4
+// free to use                       // CGRAM 5
+// free to use                       // CGRAM 6
 // free to use                       // CGRAM 7
 //_____________________________________________
 
@@ -81,18 +81,6 @@ Timer               lcd_backlight_timer;
 #define LCD_COLOR_RED   0
 #define LCD_COLOR_GREEN 0
 #define LCD_COLOR_BLUE  255
-
-// LCD Screen definition 
-//
-#define LCD_SCREEN_MAIN 0
-#define LCD_SCREEN_AIR  1
-#define LCD_SCREEN_LORA 2
-#define LCD_SCREEN_NBR  3
-
-// Global variables
-//
-bool lcd_backlight;
-byte lcd_screen;
 
 // Presence counter
 //
@@ -141,7 +129,6 @@ void onEventButton(eventType e) {
         case EVENT_BTN_LONG_PRESS:
             piezo.play(NOTE_A4, 200);
             lcd_backlight_timer.reset();  // prevent the timer from elapsing
-            lcd_backlight = true;
             lcd.fadeTo(5, LCD_COLOR_RED, LCD_COLOR_GREEN, LCD_COLOR_BLUE);
             break;
     }
@@ -262,7 +249,6 @@ void onEventPir(eventType e) {
         case EVENT_PIR_MOVING:
             motion++;
             lcd_backlight_timer.reset();  // prevent the timer from elapsing
-            lcd_backlight = true;
             lcd.fadeTo(5, LCD_COLOR_RED, LCD_COLOR_GREEN, LCD_COLOR_BLUE);
             break;
     }
@@ -270,7 +256,6 @@ void onEventPir(eventType e) {
 
 void onTimeoutLcdBacklightTimer(eventType e) {
     lcd.fadeTo(30, 0, 0, 0);
-    lcd_backlight = false;
 } // onTimeoutWatchdogLcd
 
 void setup() {
@@ -294,12 +279,11 @@ void setup() {
     timer.set(300000, true); // send a message every 5 mins
 
     lcd_backlight_timer.set(5000);
-    lcd_backlight = true;
     lcd.setRGB(0, 0, 255);
     lcd.createChar(CHAR_TEMP_UP, tempUp);
     lcd.createChar(CHAR_TEMP_DOWN, tempDown);
     lcd.setCursor(0, 0);
-    lcd.write(CHAR_TEMP_UP); // 0 is ambiguous for GCC 
+    lcd.write(CHAR_TEMP_UP); 
     lcd.setCursor(0, 1);
     lcd.write(CHAR_TEMP_DOWN);
     lcd.setCursor(2, 0);
